@@ -1,0 +1,6 @@
+requires 'HTTP::Tiny' => '0.076';
+
+on 'develop' => sub {
+    requires 'App::FatPacker' => '0.010008';
+};
+
