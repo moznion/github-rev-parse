@@ -31,27 +31,7 @@ sub main {
         };
     }
 
-    my $http = HTTP::Tiny->new(%http_opt);
-    my $base_url = "https://api.github.com/repos/${org}/${repo}";
-
-    # assume key is branch
-    my $res = $http->get("${base_url}/git/refs/heads/${key}");
-    if ($res->{success}) {
-        my $body = decode_json($res->{content});
-        print "$body->{object}->{sha}\n";
-        return;
-    }
-
-    # assume key is tag
-    $res = $http->get("${base_url}/git/refs/tags/${key}");
-    if ($res->{success}) {
-        my $body = decode_json($res->{content});
-        print "$body->{object}->{sha}\n";
-        return;
-    }
-
-    # assume key is commit hash
-    $res = $http->get("${base_url}/commits/${key}");
+    my $res = HTTP::Tiny->new(%http_opt)->get("https://api.github.com/repos/${org}/${repo}/commits/${key}");
     if ($res->{success}) {
         my $body = decode_json($res->{content});
         print "$body->{sha}\n";
